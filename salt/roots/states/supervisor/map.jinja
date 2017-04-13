@@ -1,0 +1,38 @@
+{% set supervisor = salt['grains.filter_by']({
+    'default': {
+        'conf_dir': '/etc/supervisord.d',
+        'conf_file': '/etc/supervisord.conf',
+        'init_file': '/etc/init.d/supervisor',
+        'init_source': 'salt://supervisor/files/supervisor.init',
+        'service': 'supervisor',
+    },
+    'RedHat': {
+        'conf_dir': '/etc/supervisord.d',
+        'conf_file': '/etc/supervisord.conf',
+        'init_file': '/lib/systemd/system/supervisor.service',
+        'init_source': 'salt://supervisor/files/supervisor.systemd',
+        'service': 'supervisor',
+    },
+    'Debian': {
+        'conf_dir': '/etc/supervisord.d',
+        'conf_file': '/etc/supervisord.conf',
+        'init_file': '/lib/systemd/system/supervisor.service',
+        'init_source': 'salt://supervisor/files/supervisor.systemd',
+        'service': 'supervisor',
+    },
+    'FreeBSD': {
+        'conf_dir': '/usr/local/etc/supervisord.d',
+        'conf_file': '/usr/local/etc/supervisord.conf',
+        'init_file': '/usr/local/etc/rc.d/supervisord',
+        'init_source': 'salt://supervisor/files/supervisord',
+        'service': 'supervisord',
+    },
+}, merge=salt['pillar.get']('supervisor:lookup')) %}
+
+{% set supervisor_user = salt['grains.filter_by']({
+    'default': {
+        'socketuser': 'ubuntu',
+        'socketgroup': 'ubuntu',
+    },
+}, grain='node_type',
+merge=salt['pillar.get']('supervisor:lookup')) %}
