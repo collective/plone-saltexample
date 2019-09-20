@@ -19,6 +19,7 @@ plone-deps:
             - {{ plone.deps.png }}
             - {{ plone.deps.jpeg }}
             - {{ plone.deps.tiff }}
+            - {{ plone.deps.ffi }}
 
 /srv/plone:
   file.directory:
